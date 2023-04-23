@@ -10,7 +10,7 @@ class TaskStatus(enum.Enum):
     REVIEW = 'Review'
     DONE = 'Done'
 
-class Task():
+class Task(Base):
     __tablename__ = "task"
     id = Column(Uuid, primary_key=True, default=uuid.uuid4)
     summary = Column(String, nullable=False)

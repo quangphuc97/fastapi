@@ -7,14 +7,15 @@ Create Date: 2023-04-18 13:58:48.318420
 """
 from alembic import op
 import sqlalchemy as sa
-
-
+from datetime import datetime
+from src.authent.services import get_password_hash
+from src.settings import ADMIN_PASSWORD
 # revision identifiers, used by Alembic.
 revision = '7720ea895713'
 down_revision = None
 branch_labels = None
 depends_on = None
-
+import uuid
 
 def upgrade() -> None:
     user_table = op.create_table(
@@ -30,6 +31,23 @@ def upgrade() -> None:
         sa.Column("created_at", sa.DateTime),
         sa.Column("updated_at", sa.DateTime)
     )
+
+    #seed admin account
+    op.bulk_insert(user_table, [
+        {
+            "id": uuid.uuid4(),
+            "email": "admin@sample.com",
+            "username": "admin",
+            "hashed_password": get_password_hash(ADMIN_PASSWORD),
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "is_active": True,
+            "is_admin": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow(),
+        }
+    ])
+
 
 
 def downgrade() -> None:

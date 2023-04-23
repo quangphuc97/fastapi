@@ -2,7 +2,7 @@ import uuid
 from src.database import Base
 from sqlalchemy import Column, String, Uuid, Time, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
-#from src.company.schemas import Company
+
 class User(Base):
     __tablename__ = "user"
     id = Column(Uuid, primary_key=True, default=uuid.uuid4)
